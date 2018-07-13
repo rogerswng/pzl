@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>库存列表</title>
+    <link href="https://cdn.bootcss.com/uikit/2.27.5/css/uikit.almost-flat.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/main.css">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/uikit/2.27.5/js/uikit.min.js"></script>
+  </head>
+  <body>
+    <nav class="uk-navbar uk-navbar-attached">
+      <a href="./index.html" class="uk-navbar-brand">电商管理后台</a>
+      <ul class="uk-navbar-nav">
+        <li class="uk-parent" data-uk-dropdown>
+          <a href="#">库存管理<i class="uk-icon-angle-down" style="margin-left:5px;"></i></a>
+          <div class="uk-dropdown uk-dropdown-navbar">
+            <ul class="uk-nav uk-nav-navbar">
+              <li><a href="#">库存列表</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="uk-parent" data-uk-dropdown>
+          <a href="#">分类管理<i class="uk-icon-angle-down" style="margin-left:5px;"></i></a>
+          <div class="uk-dropdown uk-dropdown-navbar">
+            <ul class="uk-nav uk-nav-navbar">
+              <li><a href="#">分类列表</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="uk-parent" data-uk-dropdown>
+          <a href="#">订单管理<i class="uk-icon-angle-down" style="margin-left:5px;"></i></a>
+          <div class="uk-dropdown uk-dropdown-navbar">
+            <ul class="uk-nav uk-nav-navbar">
+              <li><a href="#">订单列表</a></li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+      <div class="uk-navbar-flip uk-navbar-content">
+        <span style="white-space: pre;">pangzilong | </span>
+        <a href="#" class="uk-link-muted">退出</a>
+      </div>
+    </nav>
+    <div style="background-color:#fafafa; margin:10px 20px 0; padding: 15px 10px 15px 10px;">
+      <form class="uk-form">
+        <fieldset>
+          <input type="text" placeholder="商品ID">
+          <input type="text" placeholder="商品名" class="uk-margin-right">
+          <label>库存状态:</label>
+          <select class="uk-margin-right" style="width: 100px;">
+            <option>全部</option>
+            <option>有库存</option>
+            <option>无库存</option>
+          </select>
+          <label>商品状态:</label>
+          <select class="uk-margin-right" style="width: 100px;">
+            <option>全部</option>
+            <option>在售</option>
+            <option>下架</option>
+            <option>删除</option>
+          </select>
+          <button class="uk-button uk-button-primary">查询</button>
+        </fieldset>
+      </form>
+    </div>
+    <div class="uk-overflow-container" style="margin: 10px 20px 0;">
+      <table class="uk-table uk-table-striped uk-table-hover">
+        <caption>共 12345 条，250 页</caption>
+        <thead>
+          <th>商品id</th>
+          <th>分类</th>
+          <th>商品名称</th>
+          <th>商品头图</th>
+          <th>价格</th>
+          <th>库存</th>
+          <th>商品状态</th>
+          <th>创建时间</th>
+          <th>创建人</th>
+          <th>更新时间</th>
+          <th>更新人</th>
+          <th>操作</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>1</td>
+            <td>奥利奥mini小饼干</td>
+            <td><image class="uk-thumbnail uk-thumbnail-mini" src="../static/test.png"></image></td>
+            <td>6.5</td>
+            <td>102938</td>
+            <td><span class="uk-badge uk-badge-success">在架</span></td>
+            <td>2018/07/06 15:22:14</td>
+            <td>wangtianxiao</td>
+            <td>2018/07/09 12:22:44</td>
+            <td>pangzilong</td>
+            <td class="uk-width-1-10">
+              <div><button class="uk-button uk-button-link uk-button-mini">编辑</button></div>
+              <div><button class="uk-button uk-button-danger uk-button-mini">删除</button></div>
+              <div><button class="uk-button uk-button-primary uk-button-mini">下架</button></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
