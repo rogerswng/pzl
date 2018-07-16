@@ -16,7 +16,7 @@
           <a href="#">库存管理<i class="uk-icon-angle-down" style="margin-left:5px;"></i></a>
           <div class="uk-dropdown uk-dropdown-navbar">
             <ul class="uk-nav uk-nav-navbar">
-              <li><a href="#">库存列表</a></li>
+              <li><a href="./productlist.html">库存列表</a></li>
             </ul>
           </div>
         </li>
@@ -24,7 +24,7 @@
           <a href="#">分类管理<i class="uk-icon-angle-down" style="margin-left:5px;"></i></a>
           <div class="uk-dropdown uk-dropdown-navbar">
             <ul class="uk-nav uk-nav-navbar">
-              <li><a href="#">分类列表</a></li>
+              <li><a href="./typelist.html">分类列表</a></li>
             </ul>
           </div>
         </li>
@@ -32,7 +32,7 @@
           <a href="#">订单管理<i class="uk-icon-angle-down" style="margin-left:5px;"></i></a>
           <div class="uk-dropdown uk-dropdown-navbar">
             <ul class="uk-nav uk-nav-navbar">
-              <li><a href="#">订单列表</a></li>
+              <li><a href="./orderlist.html">订单列表</a></li>
             </ul>
           </div>
         </li>
@@ -42,8 +42,8 @@
         <a href="#" class="uk-link-muted">退出</a>
       </div>
     </nav>
-    <div style="background-color:#fafafa; margin:10px 20px 0; padding: 15px 10px 15px 10px;">
-      <form class="uk-form">
+    <div class="uk-clearfix filter-box">
+      <form class="uk-form uk-float-left">
         <fieldset>
           <input type="text" placeholder="商品ID">
           <input type="text" placeholder="商品名" class="uk-margin-right">
@@ -63,6 +63,55 @@
           <button class="uk-button uk-button-primary">查询</button>
         </fieldset>
       </form>
+      <div class="uk-float-right">
+        <a href="#add-modal" data-uk-modal></a>
+        <button class="uk-button uk-button-primary" type="button" name="add" data-uk-modal="{target: '#add-modal'}">新增商品</button>
+        <div id="add-modal" class="uk-modal">
+          <div class="uk-modal-dialog">
+            <div class="uk-modal-header">
+              <p class="uk-text-large">新增商品</p>
+            </div>
+            <form class="uk-form">
+              <div class="uk-form-row">
+                <span class="uk-text-muted uk-text-middle">商品名称:  </span>
+                <input type="text" placeholder="商品名称">
+                <!-- 分类 -->
+              </div>
+              <div class="uk-form-row">
+                <span class="uk-text-muted uk-text-middle">商品分类:  </span>
+                <!-- 分类 -->
+                <select>
+                  <option>--</option>
+                  <option>家用电器</option>
+                </select>
+              </div>
+              <div class="uk-form-row">
+                <span class="uk-text-muted uk-text-middle">商品价格:  </span>
+                <input type="text" placeholder="价格">
+              </div>
+              <div class="uk-form-row">
+                <span class="uk-text-muted uk-text-middle">商品库存:  </span>
+                <input type="text" placeholder="库存">
+              </div>
+              <div class="uk-form-row">
+                <span class="uk-text-muted uk-text-middle">商品状态:  </span>
+                <select>
+                  <option>在架</option>
+                  <option>下架</option>
+                </select>
+              </div>
+            </form>
+            <div class="uk-modal-footer uk-clearfix">
+              <div class="uk-float-right">
+                <button class="uk-button uk-button-success uk-modal-close">保存</button>
+              </div>
+              <div class="uk-float-right">
+                <button class="uk-button uk-modal-close" style="margin-right: 5px;">取消</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="uk-overflow-container" style="margin: 10px 20px 0;">
       <table class="uk-table uk-table-striped uk-table-hover">
@@ -98,10 +147,45 @@
               <div><button class="uk-button uk-button-link uk-button-mini">编辑</button></div>
               <div><button class="uk-button uk-button-danger uk-button-mini">删除</button></div>
               <div><button class="uk-button uk-button-primary uk-button-mini">下架</button></div>
+              <a href="#in-modal" data-uk-modal></a>
+              <div><button class="uk-button uk-button-success uk-button-mini" data-uk-modal="{target: '#in-modal'}">入库</button></div>
+              <div id="in-modal" class="uk-modal">
+                <div class="uk-modal-dialog">
+                  <div class="uk-modal-header">
+                    <p class="uk-text-large">入库</p>
+                  </div>
+                  <div>
+                    <form class="uk-form">
+                      <div class="uk-form-row">
+                        <span class="uk-text-muted uk-text-middle">入库数量:  </span>
+                        <input type="text" placeholder="入库数量">
+                      </div>
+                    </form>
+                  </div>
+                  <div class="uk-modal-footer">
+                    <div class="uk-clearfix">
+                      <button class="uk-button uk-float-right uk-button-success uk-modal-close">确定</button>
+                      <button class="uk-button uk-float-right uk-modal-close" style="margin-right: 5px;">取消</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </td>
           </tr>
         </tbody>
       </table>
+    </div>
+    <div class="uk-container" style="margin: 10px 20px 0;">
+      <ul class="uk-pagination">
+        <li class="uk-pagination-previous"><a href="#"><i class="uk-icon-angle-double-left"></i></a></li>
+        <li class="uk-active"><span>1</span></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><span>...</span></li>
+        <li><a href="#">20</a></li>
+        <li class="uk-pagination-next"><a href="#"><i class="uk-icon-angle-double-right"></i></a></li>
+      </ul>
     </div>
   </body>
 </html>

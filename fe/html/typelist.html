@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>分类列表</title>
+    <link href="https://cdn.bootcss.com/uikit/2.27.5/css/uikit.almost-flat.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/main.css">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/uikit/2.27.5/js/uikit.min.js"></script>
+    <!-- <script src="https://cdn.bootcss.com/echarts/3.8.5/echarts.min.js"></script> -->
+  </head>
+  <body>
+    <!-- 导航 -->
+    <nav class="uk-navbar uk-navbar-attached">
+      <a href="./index.html" class="uk-navbar-brand">电商管理后台</a>
+      <ul class="uk-navbar-nav">
+        <li class="uk-parent" data-uk-dropdown>
+          <a href="#">库存管理<i class="uk-icon-angle-down" style="margin-left:5px;"></i></a>
+          <div class="uk-dropdown uk-dropdown-navbar">
+            <ul class="uk-nav uk-nav-navbar">
+              <li><a href="./productlist.html">库存列表</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="uk-parent" data-uk-dropdown>
+          <a href="#">分类管理<i class="uk-icon-angle-down" style="margin-left:5px;"></i></a>
+          <div class="uk-dropdown uk-dropdown-navbar">
+            <ul class="uk-nav uk-nav-navbar">
+              <li><a href="./typelist.html">分类列表</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="uk-parent" data-uk-dropdown>
+          <a href="#">订单管理<i class="uk-icon-angle-down" style="margin-left:5px;"></i></a>
+          <div class="uk-dropdown uk-dropdown-navbar">
+            <ul class="uk-nav uk-nav-navbar">
+              <li><a href="./orderlist.html">订单列表</a></li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+      <div class="uk-navbar-flip uk-navbar-content">
+        <span style="white-space: pre;">pangzilong | </span>
+        <a href="#" class="uk-link-muted">退出</a>
+      </div>
+    </nav>
+    <!-- 从这里开始，树状图 -->
+    <div class="uk-overflow-container type-container">
+      <p>0级分类 (4)</p>
+      <div class="uk-flex">
+        <div class="type-item">
+          <span><a href="#">家用电器</a></span>
+        </div>
+        <div class="type-item">
+          <span><a href="#">手机</a></span>
+        </div>
+        <div class="type-item">
+          <span><a href="#">数码</a></span>
+        </div>
+        <div class="type-item">
+          <span><a href="#">电脑</a></span>
+        </div>
+        <div class="type-item">
+          <a href="#add-modal" data-uk-modal></a>
+          <button class="uk-button uk-button-mini uk-button-primary" data-uk-modal="{target: '#add-modal'}">新增分类</button>
+          <div id="add-modal" class="uk-modal">
+            <div class="uk-modal-dialog">
+              <div class="uk-modal-header">
+                <p class="uk-text-large">新增分类</p>
+              </div>
+              <div>
+                <form class="uk-form">
+                  <div class="uk-form-row">
+                    <span class="uk-text-muted uk-text-middle">分类名称:  </span>
+                    <input type="text" placeholder="分类名称">
+                  </div>
+                  <div class="uk-form-row">
+                    <span class="uk-text-muted uk-text-middle">类别状态:  </span>
+                    <select>
+                      <option>正常</option>
+                      <option>废弃</option>
+                    </select>
+                  </div>
+                </form>
+              </div>
+              <div class="uk-modal-footer uk-clearfix">
+                <div class="uk-float-right">
+                  <button class="uk-button uk-modal-close uk-button-success">保存</button>
+                </div>
+                <div class="uk-float-right">
+                  <button class="uk-button uk-modal-close" style="margin-right: 5px;">取消</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="uk-overflow-container type-container">
+      <p>1级分类 (10)</p>
+      <div class="uk-flex">
+        <div class="type-item">
+          <span><a href="#">电视</a></span>
+        </div>
+        <div class="type-item">
+          <span><a href="#">空调</a></span>
+        </div>
+        <div class="type-item">
+          <span>洗衣机</span>
+        </div>
+        <div class="type-item">
+          <span>冰箱</span>
+        </div>
+        <div class="type-item">
+          <span>厨卫大电</span>
+        </div>
+        <div class="type-item">
+          <span>厨卫小电</span>
+        </div>
+        <div class="type-item">
+          <span>生活电器</span>
+        </div>
+        <div class="type-item">
+          <span>个护健康</span>
+        </div>
+        <div class="type-item">
+          <span>家庭影音</span>
+        </div>
+        <div class="type-item">
+          <span>进口电器</span>
+        </div>
+        <div class="type-item">
+          <button class="uk-button uk-button-mini uk-button-primary">新增分类</button>
+        </div>
+      </div>
+    </div>
+    <div class="uk-overflow-container type-container">
+      <p>2级分类 (7)</p>
+      <div class="uk-flex">
+        <div class="type-item">
+          <span><a href="#">曲面电视</a></span>
+        </div>
+        <div class="type-item">
+          <span><a href="#">超薄电视</a></span>
+        </div>
+        <div class="type-item">
+          <span><a href="#">HDR电视</a></span>
+        </div>
+        <div class="type-item">
+          <span><a href="#">OLED电视</a></span>
+        </div>
+        <div class="type-item">
+          <span><a href="#">4K超清电视</a></span>
+        </div>
+        <div class="type-item">
+          <span><a href="#">人工智能电视</a></span>
+        </div>
+        <div class="type-item">
+          <span><a href="#">电视配件</a></span>
+        </div>
+        <div class="type-item">
+          <button class="uk-button uk-button-mini uk-button-primary">新增分类</button>
+        </div>
+      </div>
+    </div>
+    <div class="uk-overflow-container type-container">
+      <p class="uk-text-large uk-text-bold uk-float-left">曲面电视<span class="uk-badge uk-badge-success" style="margin-left: 5px;">正常</span></p>
+      <div class="uk-float-right">
+        <button class="uk-button uk-button-danger" type="button" name="button">废弃</button>
+        <a href="#edit-modal" data-uk-modal></a>
+        <button class="uk-button uk-button-primary" type="button" name="button" data-uk-modal="{target: '#edit-modal'}">编辑</button>
+        <button class="uk-button uk-button-success" type="button" name="button">查看商品</button>
+        <div id="edit-modal" class="uk-modal">
+          <div class="uk-modal-dialog">
+            <div class="uk-modal-header">
+              <p class="uk-text-large">编辑分类</p>
+            </div>
+            <div>
+              <form class="uk-form">
+                <div class="uk-form-row">
+                  <span class="uk-text-muted uk-text-middle">分类名:  </span>
+                  <input type="text" placeholder="分类名">
+                </div>
+                <div class="uk-form-row">
+                  <span class="uk-text-muted uk-text-middle">分类状态:  </span>
+                  <select>
+                    <option>正常</option>
+                    <option>废弃</option>
+                  </select>
+                </div>
+              </form>
+            </div>
+            <div class="uk-modal-footer uk-clearfix">
+              <button class="uk-button uk-button-success uk-modal-close uk-float-right">保存</button>
+              <button class="uk-button uk-modal-close uk-float-right" style="margin-right: 5px;">取消</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="uk-overflow-container type-container" style="margin-top: 0;">
+      <div class="type-detail uk-clearfix">
+        <div class="uk-float-left">
+          <span>类别id:1</span>
+        </div>
+        <div class="uk-float-left">
+          <span>父类别:电视(12345)</span>
+        </div>
+        <div class="uk-float-left">
+          <span>类别名称:曲面电视</span>
+        </div>
+        <div class="uk-float-left">
+          <span>类别状态:正常</span>
+        </div>
+        <div class="uk-float-left">
+          <span>创建时间:2018/07/12 18:29:33</span>
+        </div>
+        <div class="uk-float-left">
+          <span>创建人:pangzilong</span>
+        </div>
+        <div class="uk-float-left">
+          <span>最后更新:2018/07/14 17:22:32</span>
+        </div>
+        <div class="uk-float-left">
+          <span>最后更新人:wangtianxiao</span>
+        </div>
+        <div class="uk-float-left">
+          <span>分类下商品总数:12</span>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
