@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import pymysql
-from pymysql.cursor import DictCursor
+from pymysql.cursors import DictCursor
 from DBUtils.PooledDB import PooledDB
 
 class Pysql(object):
@@ -19,8 +19,8 @@ class Pysql(object):
 
     @staticmethod
     def __getConn():
-        if Pysql.__pool = None:
-            __pool = PoolDB(
+        if Pysql.__pool is None:
+            __pool = PooledDB(
                 creator=pymysql,
                 mincached=1,
                 maxcached=20,
@@ -48,4 +48,67 @@ class Pysql(object):
         else:
             return self._cursor.execute(sql, params)
 
-    def
+    def selectAll(self, sql, params=None):
+        if params is None:
+            count = self._cursor.execute(sql)
+        else:
+            count = self._cursor.execute(sql, params)
+
+        if count >= 0:
+            return {"success":True,"count":count,"data":self._cursor.fetchall()}
+        else:
+            return {"success":False}
+
+    def selectFirst(self, sql, params=None):
+        if params is None:
+            count = self._cursor.execute(sql)
+        else:
+            count = self._cursor.execute(sql, params)
+
+        if count >= 0:
+            return {"success":True,"count":count,"data":self._cursor.fetchone()}
+        else:
+            return {"success":False}
+
+    def selectSome(self, sql, num, params=None):
+        if params is None:
+            count = self._cursor.execute(sql)
+        else:
+            count = self._cursor.execute(sql, params)
+
+        if count >= 0:
+            return {"success":True,"count":count,"data":self._cursor.fetchmany(num)}
+        else:
+            return {"success":False}
+
+    def insert(self, sql, params):
+        count = self._cursor.execute(sql, params)
+        if count:
+            self._conn.commit()
+            return {"success":True}
+        else:
+            return {"success":False}
+
+    def delete(self, sql, params=None):
+        if params is None:
+            count = self._cursor.execute(sql)
+        else:
+            count = self._cursor.execute(sql, params)
+
+        if count >= 0:
+            self._conn.commit()
+            return {"success":True,"count":count}
+        else:
+            return {"success":False,"reason":1}
+
+    def modify(self, sql, params=None):
+        if params is None:
+            count = self._cursor.execute(sql)
+        else:
+            count = self._cursor.execute(sql, params)
+
+        if count >= 0:
+            self._conn.commit()
+            return {"success":True,"count":count}
+        else:
+            return {"success":False}

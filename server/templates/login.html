@@ -6,6 +6,7 @@
     <link href="https://cdn.bootcss.com/uikit/2.27.5/css/uikit.almost-flat.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./static/css/main.css">
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script src="https://cdn.bootcss.com/uikit/2.27.5/js/uikit.min.js"></script>
   </head>
   <body style="background-color: #fafafa;">
@@ -51,6 +52,11 @@
             success: function(res) {
               if (!res.success) {
                 alert (res.reason);
+              } else {
+                console.log(res.data);
+                $.cookie("uid", res.data.id);
+                $.cookie("username", res.data.username);
+                window.location.href = "http://127.0.0.1:5000/index";
               }
             }
           })

@@ -1,0 +1,44 @@
+<div class="uk-overflow-container type-container" id="{{ hier }}-type-container">
+  <p>{{ hier }}级分类 ({{ catCount }})</p>
+  <div class="uk-flex">
+    {% for item in cats %}
+      <div class="type-item">
+        <span><a class="type-item" id="{{ hier }}-{{ item.id }}">{{ item.name }}</a></span>
+      </div>
+    {% endfor %}
+    <div class="type-item">
+      <a href="#add-modal-{{ hier }}" data-uk-modal></a>
+      <button class="uk-button uk-button-mini uk-button-primary" data-uk-modal="{target: '#add-modal-{{ hier }}'}">新增分类</button>
+      <div id="add-modal-{{ hier }}" class="uk-modal">
+        <div class="uk-modal-dialog">
+          <div class="uk-modal-header">
+            <p class="uk-text-large">新增分类</p>
+          </div>
+          <div>
+            <form class="uk-form">
+              <div class="uk-form-row">
+                <span class="uk-text-muted uk-text-middle">分类名称:  </span>
+                <input type="text" placeholder="分类名称" id="catName-{{ hier }}">
+              </div>
+              <div class="uk-form-row">
+                <span class="uk-text-muted uk-text-middle">类别状态:  </span>
+                <select id="catStatus-{{ hier }}">
+                  <option value="1">正常</option>
+                  <option value="2">废弃</option>
+                </select>
+              </div>
+            </form>
+          </div>
+          <div class="uk-modal-footer uk-clearfix">
+            <div class="uk-float-right">
+              <button class="uk-button uk-modal-close uk-button-success new-cat-button" id="save-{{ hier }}-{{ parent_id }}">保存</button>
+            </div>
+            <div class="uk-float-right">
+              <button class="uk-button uk-modal-close" style="margin-right: 5px;">取消</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

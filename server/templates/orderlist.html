@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>订单列表</title>
+    <link href="https://cdn.bootcss.com/uikit/2.27.5/css/uikit.almost-flat.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./static/css/main.css">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/uikit/2.27.5/js/uikit.min.js"></script>
+  </head>
+  <body>
+    <!-- 导航 -->
+    <nav class="uk-navbar uk-navbar-attached">
+      <a href="./index" class="uk-navbar-brand">电商管理后台</a>
+      <ul class="uk-navbar-nav">
+        <li class="uk-parent" data-uk-dropdown>
+          <a href="">库存管理<i class="uk-icon-angle-down" style="margin-left:5px;"></i></a>
+          <div class="uk-dropdown uk-dropdown-navbar">
+            <ul class="uk-nav uk-nav-navbar">
+              <li><a href="./productlist">库存列表</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="uk-parent" data-uk-dropdown>
+          <a href="">分类管理<i class="uk-icon-angle-down" style="margin-left:5px;"></i></a>
+          <div class="uk-dropdown uk-dropdown-navbar">
+            <ul class="uk-nav uk-nav-navbar">
+              <li><a href="./typelist">分类列表</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="uk-parent" data-uk-dropdown>
+          <a href="">订单管理<i class="uk-icon-angle-down" style="margin-left:5px;"></i></a>
+          <div class="uk-dropdown uk-dropdown-navbar">
+            <ul class="uk-nav uk-nav-navbar">
+              <li><a href="./orderlist">订单列表</a></li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+      <div class="uk-navbar-flip uk-navbar-content">
+        <span style="white-space: pre;">{{ username }} | </span>
+        <a href="./logout" class="uk-link-muted">退出</a>
+      </div>
+    </nav>
+    <!-- 筛选框 -->
+    <div class="uk-clearfix filter-box">
+      <!-- <form class="uk-form uk-float-left">
+        <input type="text" placeholder="订单id" />
+        <input type="text" placeholder="订单号" />
+        <input type="text" placeholder="用户id" />
+        <select>
+          <option>全部</option>
+          <option>已取消</option>
+          <option>待付款</option>
+          <option>已付款</option>
+          <option>已发货</option>
+          <option>交易成功</option>
+          <option>交易关闭</option>
+        </select>
+      </form>
+      <div class="uk-float-right">
+        <button class="uk-button uk-button-primary">查询</button>
+      </div> -->
+    </div>
+    <div class="uk-overflow-container" style="margin: 10px 20px 0;">
+      <table class="uk-table uk-table-hover uk-table-striped">
+        <!-- <caption>共 12345 条，250 页</caption> -->
+        <thead>
+          <th>订单id</th>
+          <th>订单号</th>
+          <th>用户id</th>
+          <th>实际付款金额</th>
+          <th>订单状态</th>
+          <!-- <th>商品总件数</th> -->
+          <th>交易创建时间</th>
+          <th>最后更新时间</th>
+          <!-- <th>最后操作人</th> -->
+          <th>操作</th>
+        </thead>
+        <tbody>
+          {%- for item in orders -%}
+            <tr>
+              <td>{{ item.id }}</td>
+              <td>{{ item.order_no }}</td>
+              <td>{{ item.user_id }}</td>
+              <td>{{ item.payment }}</td>
+              {%- if item.status == 0 -%}
+                <td>已取消</td>
+              {%- elif item.status == 10 -%}
+                <td>未付款</td>
+              {%- elif item.status == 20 -%}
+                <td>已付款</td>
+              {%- elif item.status == 40 -%}
+                <td>已发货</td>
+              {%- elif item.status == 50 -%}
+                <td>交易成功</td>
+              {%- elif item.status == 60 -%}
+                <td>交易关闭</td>
+              {%- endif -%}
+              <!-- <td>10</td> -->
+              <td>{{ item.created_time }}</td>
+              <td>{{ item.updated_time }}</td>
+              <!-- <td>{{ item.updated_user }}</td> -->
+              <td class="uk-width-1-10">
+                <!-- <a href="#detail-modal" data-uk-modal></a>
+                <div><button class="uk-button uk-button-mini uk-button-link" data-uk-modal="{target: '#detail-modal'}">详情</button></div>
+                <div id="detail-modal" class="uk-modal">
+                  <div class="uk-modal-dialog">
+                    <div class="uk-modal-header">
+                      <p class="uk-text-large">订单详情</p>
+                    </div>
+                    <div class="order-detail">
+                      <div class="order-detail-item">
+                        <span class="uk-text-muted uk-text-middle">订单号</span>
+                        <p>123456789</p>
+                      </div>
+                    </div>
+                    <div class="uk-modal-footer uk-clearfix">
+                      <button class="uk-button uk-button-primary uk-modal-close uk-float-right">关闭</button>
+                    </div>
+                  </div>
+                </div> -->
+                {%- if item.status != 0 -%}
+                  {%- if item.status < 60 -%}
+                    <div><button class="uk-button uk-button-mini uk-button-danger close-order-button" id="close-{{ item.id }}">关闭</button></div>
+                  {%- endif -%}
+                  {%- if item.status < 20 -%}
+                    <div><button class="uk-button uk-button-mini uk-button-danger paid-order-button" id="paid-{{ item.id }}">已付款</button></div>
+                  {%- endif -%}
+                  {%- if item.status < 40 -%}
+                    <div><button class="uk-button uk-button-mini uk-button-success shipped-order-button" id="shipped-{{ item.id }}">已发货</button></div>
+                  {%- endif -%}
+                {%- endif -%}
+              </td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+    </div>
+    <!-- <div class="uk-overflow-container" style="margin: 10px 20px 0;">
+      <ul class="uk-pagination">
+        <li class="uk-pagination-previous"><a href="#"><i class="uk-icon-angle-double-left"></i></a></li>
+        <li class="uk-active"><span>1</span></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><span>...</span></li>
+        <li><a href="#">20</a></li>
+        <li class="uk-pagination-next"><a href="#"><i class="uk-icon-angle-double-right"></i></a></li>
+      </ul>
+    </div> -->
+  </body>
+  <script type="text/javascript">
+    $(document).on('click', 'button.close-order-button', function(e) {
+      var id = parseInt(e.currentTarget.id.split("-")[1]);
+
+      $.ajax({
+        type: 'GET',
+        url: 'http://127.0.0.1:5000/api/closeOrder/'+id,
+        dataType: "json",
+        success: function(res) {
+          if(res.success) {
+            window.location.href = "http://127.0.0.1:5000/orderlist";
+          } else {
+            alert(res.reason);
+          }
+        }
+      });
+    });
+    $(document).on('click', 'button.paid-order-button', function(e) {
+      var id = parseInt(e.currentTarget.id.split("-")[1]);
+
+      $.ajax({
+        type: 'GET',
+        url: 'http://127.0.0.1:5000/api/paidOrder/'+id,
+        dataType: "json",
+        success: function(res) {
+          if(res.success) {
+            window.location.href = "http://127.0.0.1:5000/orderlist";
+          } else {
+            alert(res.reason);
+          }
+        }
+      });
+    });
+    $(document).on('click', 'button.shipped-order-button', function(e) {
+      var id = parseInt(e.currentTarget.id.split("-")[1]);
+
+      $.ajax({
+        type: 'GET',
+        url: 'http://127.0.0.1:5000/api/shippedOrder/'+id,
+        dataType: "json",
+        success: function(res) {
+          if(res.success) {
+            window.location.href = "http://127.0.0.1:5000/orderlist";
+          } else {
+            alert(res.reason);
+          }
+        }
+      });
+    });
+  </script>
+</html>

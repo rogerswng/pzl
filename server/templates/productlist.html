@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>库存列表</title>
+    <link href="https://cdn.bootcss.com/uikit/2.27.5/css/uikit.almost-flat.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./static/css/main.css">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/uikit/2.27.5/js/uikit.min.js"></script>
+  </head>
+  <body>
+    <nav class="uk-navbar uk-navbar-attached">
+      <a href="./index" class="uk-navbar-brand">电商管理后台</a>
+      <ul class="uk-navbar-nav">
+        <li class="uk-parent" data-uk-dropdown>
+          <a href="">库存管理<i class="uk-icon-angle-down" style="margin-left:5px;"></i></a>
+          <div class="uk-dropdown uk-dropdown-navbar">
+            <ul class="uk-nav uk-nav-navbar">
+              <li><a href="./productlist">库存列表</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="uk-parent" data-uk-dropdown>
+          <a href="">分类管理<i class="uk-icon-angle-down" style="margin-left:5px;"></i></a>
+          <div class="uk-dropdown uk-dropdown-navbar">
+            <ul class="uk-nav uk-nav-navbar">
+              <li><a href="./typelist">分类列表</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="uk-parent" data-uk-dropdown>
+          <a href="">订单管理<i class="uk-icon-angle-down" style="margin-left:5px;"></i></a>
+          <div class="uk-dropdown uk-dropdown-navbar">
+            <ul class="uk-nav uk-nav-navbar">
+              <li><a href="./orderlist">订单列表</a></li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+      <div class="uk-navbar-flip uk-navbar-content">
+        <span style="white-space: pre;">{{ username }} | </span>
+        <a href="./logout" class="uk-link-muted">退出</a>
+      </div>
+    </nav>
+    <div class="uk-clearfix filter-box">
+      <!-- <form class="uk-form uk-float-left">
+        <fieldset>
+          <input type="text" placeholder="商品ID">
+          <input type="text" placeholder="商品名" class="uk-margin-right">
+          <label>库存状态:</label>
+          <select class="uk-margin-right" style="width: 100px;">
+            <option>全部</option>
+            <option>有库存</option>
+            <option>无库存</option>
+          </select>
+          <label>商品状态:</label>
+          <select class="uk-margin-right" style="width: 100px;">
+            <option>全部</option>
+            <option>在售</option>
+            <option>下架</option>
+            <option>删除</option>
+          </select>
+          <button class="uk-button uk-button-primary">查询</button>
+        </fieldset>
+      </form> -->
+      <div class="uk-float-right">
+        <a href="#add-modal" data-uk-modal></a>
+        <button class="uk-button uk-button-primary" type="button" name="add" data-uk-modal="{target: '#add-modal'}">新增商品</button>
+        <div id="add-modal" class="uk-modal">
+          <div class="uk-modal-dialog">
+            <div class="uk-modal-header">
+              <p class="uk-text-large">新增商品</p>
+            </div>
+            <form class="uk-form">
+              <div class="uk-form-row">
+                <span class="uk-text-muted uk-text-middle">商品名称:  </span>
+                <input type="text" placeholder="商品名称" id="create-name">
+                <!-- 分类 -->
+              </div>
+              <div class="uk-form-row">
+                <span class="uk-text-muted uk-text-middle">商品分类id:  </span>
+                <input type="text" placeholder="分类id" id="create-category-id">
+              </div>
+              <div class="uk-form-row">
+                <span class="uk-text-muted uk-text-middle">商品价格:  </span>
+                <input type="text" placeholder="价格" id="create-price">
+              </div>
+              <div class="uk-form-row">
+                <span class="uk-text-muted uk-text-middle">商品库存:  </span>
+                <input type="text" placeholder="库存" id="create-stock">
+              </div>
+              <div class="uk-form-row">
+                <span class="uk-text-muted uk-text-middle">商品状态:  </span>
+                <select id="create-status">
+                  <option value="1">在架</option>
+                  <option value="2">下架</option>
+                </select>
+              </div>
+            </form>
+            <div class="uk-modal-footer uk-clearfix">
+              <div class="uk-float-right">
+                <button class="uk-button uk-button-success uk-modal-close create-pro-button">保存</button>
+              </div>
+              <div class="uk-float-right">
+                <button class="uk-button uk-modal-close" style="margin-right: 5px;">取消</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="product-table">
+
+    </div>
+  </body>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $.ajax({
+        type: 'GET',
+        url: 'http://127.0.0.1:5000/api/getAllProducts',
+        dataType: "json",
+        success: function(res) {
+          if(res.success) {
+            $("#product-table").append(res.html);
+          } else {
+            alert(res.reason);
+          }
+        }
+      })
+    })
+  </script>
+  <script type="text/javascript">
+    $(document).on('click', 'button.create-pro-button', function(e) {
+      var name = $("#create-name").val();
+      var category_id = $("#create-category-id").val();
+      var price = $("#create-price").val();
+      var stock = $("#create-stock").val();
+      var status = $("#create-status").val();
+
+      $.ajax({
+        type: 'POST',
+        url: 'http://127.0.0.1:5000/api/createProduct',
+        data: {
+          name: name,
+          category_id: category_id,
+          price: price,
+          stock: stock,
+          status: status
+        },
+        dataType: "json",
+        success: function(res) {
+          if(res.success) {
+            window.location.href = "http://127.0.0.1:5000/productlist";
+          } else {
+            alert(res.reason);
+          }
+        }
+      });
+    });
+    $(document).on('click', 'button.on-pro-button', function(e) {
+      var id = parseInt(e.currentTarget.id.split("-")[1]);
+
+      $.ajax({
+        type: 'GET',
+        url: 'http://127.0.0.1:5000/api/onProduct/'+id,
+        dataType: "json",
+        success: function(res) {
+          if(res.success) {
+            window.location.href = "http://127.0.0.1:5000/productlist";
+          } else {
+            alert(res.reason);
+          }
+        }
+      });
+    });
+    $(document).on('click', 'button.down-pro-button', function(e) {
+      var id = parseInt(e.currentTarget.id.split("-")[1]);
+
+      $.ajax({
+        type: 'GET',
+        url: 'http://127.0.0.1:5000/api/downProduct/'+id,
+        dataType: "json",
+        success: function(res) {
+          if(res.success) {
+            window.location.href = "http://127.0.0.1:5000/productlist";
+          } else {
+            alert(res.reason);
+          }
+        }
+      });
+    });
+    $(document).on('click', 'button.delete-pro-button', function(e) {
+      var id = parseInt(e.currentTarget.id.split("-")[1]);
+
+      $.ajax({
+        type: 'GET',
+        url: 'http://127.0.0.1:5000/api/deleteProduct/'+id,
+        dataType: "json",
+        success: function(res) {
+          if(res.success) {
+            window.location.href = "http://127.0.0.1:5000/productlist";
+          } else {
+            alert(res.reason);
+          }
+        }
+      });
+    });
+    $(document).on('click', 'button.in-pro-button', function(e) {
+      var id = parseInt(e.currentTarget.id.split("-")[1]);
+      var sel = "#in-stock-"+id;
+      var in_stock = parseInt($(sel).val());
+
+      $.ajax({
+        type: 'POST',
+        url: 'http://127.0.0.1:5000/api/inProduct',
+        data: {
+          id: id,
+          in_stock: in_stock
+        },
+        dataType: "json",
+        success: function(res) {
+          if(res.success) {
+            window.location.href = "http://127.0.0.1:5000/productlist";
+          } else {
+            alert(res.reason);
+          }
+        }
+      });
+    });
+    $(document).on('click', 'button.edit-pro-button', function(e) {
+      var id = parseInt(e.currentTarget.id.split("-")[1]);
+      var name = $("#edit-name-"+id).val();
+      var category_id = $("#edit-category-id-"+id).val();
+      var price = $("#edit-price-"+id).val();
+      var stock = $("#edit-stock-"+id).val();
+      var status = $("#edit-status-"+id).val();
+
+      // console.log(id,name,category_id,price,stock,status);
+
+      $.ajax({
+        type: 'POST',
+        url: 'http://127.0.0.1:5000/api/editProduct',
+        data: {
+          id: id,
+          name: name,
+          category_id: category_id,
+          price: price,
+          stock: stock,
+          status: status
+        },
+        dataType: "json",
+        success: function(res) {
+          if(res.success) {
+            window.location.href = "http://127.0.0.1:5000/productlist";
+          } else {
+            alert(res.reason);
+          }
+        }
+      });
+    });
+  </script>
+</html>

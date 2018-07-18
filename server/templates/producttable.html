@@ -1,0 +1,130 @@
+<div class="uk-overflow-container" style="margin: 10px 20px 0;">
+  <table class="uk-table uk-table-striped uk-table-hover">
+    <thead>
+      <th>商品id</th>
+      <th>分类</th>
+      <th>商品名称</th>
+      <!-- <th>商品头图</th> -->
+      <th>价格</th>
+      <th>库存</th>
+      <th>商品状态</th>
+      <th>创建时间</th>
+      <th>创建人</th>
+      <th>更新时间</th>
+      <th>更新人</th>
+      <th>操作</th>
+    </thead>
+    <tbody>
+      {%- for item in products -%}
+        <tr>
+          <td>{{ item.id }}</td>
+          <td>{{ item.category_id }}</td>
+          <td>{{ item.name }}</td>
+          <!-- <td><image class="uk-thumbnail uk-thumbnail-mini" src="../static/test.png"></image></td> -->
+          <td>{{ item.price }}</td>
+          <td>{{ item.stock }}</td>
+          {%- if item.status == 1 -%}
+            <td><span class="uk-badge uk-badge-success">在架</span></td>
+          {%- elif item.status == 2 -%}
+            <td><span class="uk-badge uk-badge-warning">下架</span></td>
+          {%- elif item.status == 3 -%}
+            <td><span class="uk-badge uk-badge-danger">删除</span></td>
+          {%- endif -%}
+          <td>{{ item.created_time }}</td>
+          <td>{{ item.created_user }}</td>
+          <td>{{ item.updated_time }}</td>
+          <td>{{ item.updated_user }}</td>
+          <td class="uk-width-1-10">
+            <a href="#edit-modal-{{ item.id }}" data-uk-modal></a>
+            <div><button class="uk-button uk-button-link uk-button-mini" data-uk-modal="{target: '#edit-modal-{{ item.id }}'}">编辑</button></div>
+            <div id="edit-modal-{{ item.id }}" class="uk-modal">
+              <div class="uk-modal-dialog">
+                <div class="uk-modal-header">
+                  <p class="uk-text-large">新增商品</p>
+                </div>
+                <form class="uk-form">
+                  <div class="uk-form-row">
+                    <span class="uk-text-muted uk-text-middle">商品名称:  </span>
+                    <input type="text" placeholder="商品名称" id="edit-name-{{ item.id }}" value="{{ item.name }}">
+                    <!-- 分类 -->
+                  </div>
+                  <div class="uk-form-row">
+                    <span class="uk-text-muted uk-text-middle">商品分类id:  </span>
+                    <input type="text" placeholder="分类id" id="edit-category-id-{{ item.id }}" value="{{ item.category_id }}">
+                  </div>
+                  <div class="uk-form-row">
+                    <span class="uk-text-muted uk-text-middle">商品价格:  </span>
+                    <input type="text" placeholder="价格" id="edit-price-{{ item.id }}" value="{{ item.price }}">
+                  </div>
+                  <div class="uk-form-row">
+                    <span class="uk-text-muted uk-text-middle">商品库存:  </span>
+                    <input type="text" placeholder="库存" id="edit-stock-{{ item.id }}" value="{{ item.stock }}">
+                  </div>
+                  <div class="uk-form-row">
+                    <span class="uk-text-muted uk-text-middle">商品状态:  </span>
+                    <select id="edit-status-{{ item.id }}">
+                      <option value="1">在架</option>
+                      <option value="2">下架</option>
+                    </select>
+                  </div>
+                </form>
+                <div class="uk-modal-footer uk-clearfix">
+                  <div class="uk-float-right">
+                    <button class="uk-button uk-button-success uk-modal-close edit-pro-button" id="edit-{{ item.id }}">保存</button>
+                  </div>
+                  <div class="uk-float-right">
+                    <button class="uk-button uk-modal-close" style="margin-right: 5px;">取消</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {%- if item.status != 1 -%}
+              <div><button class="uk-button uk-button-success uk-button-mini on-pro-button" id="on-{{ item.id }}">上架</button></div>
+            {%- endif -%}
+            {%- if item.status != 2 -%}
+              <div><button class="uk-button uk-button-primary uk-button-mini down-pro-button" id="down-{{ item.id }}">下架</button></div>
+            {%- endif -%}
+            {%- if item.status != 3 -%}
+            <div><button class="uk-button uk-button-danger uk-button-mini delete-pro-button" id="delete-{{ item.id }}">删除</button></div>
+            {%- endif -%}
+            <a href="#in-modal-{{ item.id }}" data-uk-modal></a>
+            <div><button class="uk-button uk-button-success uk-button-mini" data-uk-modal="{target: '#in-modal-{{ item.id }}'}">入库</button></div>
+            <div id="in-modal-{{ item.id }}" class="uk-modal">
+              <div class="uk-modal-dialog">
+                <div class="uk-modal-header">
+                  <p class="uk-text-large">入库</p>
+                </div>
+                <div>
+                  <form class="uk-form">
+                    <div class="uk-form-row">
+                      <span class="uk-text-muted uk-text-middle">入库数量:  </span>
+                      <input type="text" placeholder="入库数量" id="in-stock-{{ item.id }}">
+                    </div>
+                  </form>
+                </div>
+                <div class="uk-modal-footer">
+                  <div class="uk-clearfix">
+                    <button class="uk-button uk-float-right uk-button-success uk-modal-close in-pro-button" id="in-{{ item.id }}">确定</button>
+                    <button class="uk-button uk-float-right uk-modal-close" style="margin-right: 5px;">取消</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      {%- endfor -%}
+    </tbody>
+  </table>
+</div>
+<!-- <div class="uk-container" style="margin: 10px 20px 0;">
+  <ul class="uk-pagination">
+    <li class="uk-pagination-previous"><a href="#"><i class="uk-icon-angle-double-left"></i></a></li>
+    <li class="uk-active"><span>1</span></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><span>...</span></li>
+    <li><a href="#">20</a></li>
+    <li class="uk-pagination-next"><a href="#"><i class="uk-icon-angle-double-right"></i></a></li>
+  </ul>
+</div> -->

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>分类列表</title>
+    <link href="https://cdn.bootcss.com/uikit/2.27.5/css/uikit.almost-flat.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./static/css/main.css">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/uikit/2.27.5/js/uikit.min.js"></script>
+    <!-- <script src="https://cdn.bootcss.com/echarts/3.8.5/echarts.min.js"></script> -->
+  </head>
+  <body>
+    <!-- 导航 -->
+    <nav class="uk-navbar uk-navbar-attached">
+      <a href="./index" class="uk-navbar-brand">电商管理后台</a>
+      <ul class="uk-navbar-nav">
+        <li class="uk-parent" data-uk-dropdown>
+          <a href="">库存管理<i class="uk-icon-angle-down" style="margin-left:5px;"></i></a>
+          <div class="uk-dropdown uk-dropdown-navbar">
+            <ul class="uk-nav uk-nav-navbar">
+              <li><a href="./productlist">库存列表</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="uk-parent" data-uk-dropdown>
+          <a href="">分类管理<i class="uk-icon-angle-down" style="margin-left:5px;"></i></a>
+          <div class="uk-dropdown uk-dropdown-navbar">
+            <ul class="uk-nav uk-nav-navbar">
+              <li><a href="./typelist">分类列表</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="uk-parent" data-uk-dropdown>
+          <a href="">订单管理<i class="uk-icon-angle-down" style="margin-left:5px;"></i></a>
+          <div class="uk-dropdown uk-dropdown-navbar">
+            <ul class="uk-nav uk-nav-navbar">
+              <li><a href="./orderlist">订单列表</a></li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+      <div class="uk-navbar-flip uk-navbar-content">
+        <span style="white-space: pre;">pangzilong | </span>
+        <a href="./logout" class="uk-link-muted">退出</a>
+      </div>
+    </nav>
+    <div id="type-container">
+
+    </div>
+    <div id="type-detail-container">
+
+    </div>
+  </body>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $.ajax({
+        type: "GET",
+        url: "http://127.0.0.1:5000/api/getFirstCats",
+        dataType: "json",
+        success: function(res) {
+          if(res.success) {
+            $("#type-container").append(res.html);
+          } else {
+            alert(res.reason);
+          }
+        }
+      });
+    });
+  </script>
+  <script type="text/javascript">
+    $(document).on('click', 'button.new-cat-button', function(e) {
+      console.log(e);
+      var hier = parseInt(e.currentTarget.id.split("-")[1]);
+      var parent_id = parseInt(e.currentTarget.id.split("-")[2]);
+      var name = $("#catName-"+hier).val();
+      var status = $("#catStatus-"+hier).val();
+      console.log(hier, parent_id, name, status);
+      $.ajax({
+        type: "POST",
+        url: "http://127.0.0.1:5000/api/createCat",
+        data: {
+          hier: hier,
+          parent_id: parent_id,
+          name: name,
+          status: status
+        },
+        dataType: "json",
+        success: function(res) {
+          if(res.success) {
+            window.location.href = "http://127.0.0.1:5000/typelist";
+          } else {
+            alert(res.reason);
+          }
+        }
+      });
+    });
+  </script>
+  <script type="text/javascript">
+    $(document).on('click', 'a.type-item', function(e) {
+      e.preventDefault();
+      var hier = e.currentTarget.id.split("-")[0];
+      var curHier = parseInt(hier);
+      var newHier = parseInt(hier)+1;
+      var id = e.currentTarget.id.split("-")[1];
+      var url = "http://127.0.0.1:5000/api/getFollowingCats/"+hier+"/"+id;
+      $.ajax({
+        type: 'GET',
+        url: url,
+        dataType: "json",
+        success: function(res) {
+          if(res.success) {
+            // console.log(res.html);
+            var curSelector = "#"+curHier+"-type-container";
+            // console.log($(curSelector).nextAll());
+            var nextList = $(curSelector).nextAll();
+            for (var i = 0; i < nextList.length; i++) {
+              nextList[i].remove();
+            }
+            $("#"+curHier+"-type-container").after(res.html);
+          } else {
+            alert(res.reason);
+          }
+        }
+      });
+      $.ajax({
+        type: 'GET',
+        url: "http://127.0.0.1:5000/api/getCatDetail/"+id,
+        dataType: "json",
+        success: function(res) {
+          if(res.success) {
+            $("#type-detail-container").empty();
+            $("#type-detail-container").append(res.html);
+          } else {
+            alert(res.reason);
+          }
+        }
+      });
+    });
+  </script>
+  <script type="text/javascript">
+    $(document).on('click', 'button.discard-cat-button', function(e) {
+      var id = parseInt(e.currentTarget.id.split("-")[1]);
+      $.ajax({
+        type: 'GET',
+        url: "http://127.0.0.1:5000/api/discardCat/"+id,
+        dataType: "json",
+        success: function(res) {
+          if(res.success) {
+            window.location.href = "http://127.0.0.1:5000/typelist";
+          } else {
+            alert(res.reason);
+          }
+        }
+      });
+    });
+    $(document).on('click', 'button.reuse-cat-button', function(e) {
+      var id = parseInt(e.currentTarget.id.split("-")[1]);
+      $.ajax({
+        type: 'GET',
+        url: "http://127.0.0.1:5000/api/reuseCat/"+id,
+        dataType: "json",
+        success: function(res) {
+          if(res.success) {
+            window.location.href = "http://127.0.0.1:5000/typelist";
+          } else {
+            alert(res.reason);
+          }
+        }
+      });
+    });
+    $(document).on('click', 'button.edit-cat-button', function(e) {
+      var name = $("#editName").val();
+      var status = $("#editStatus").val();
+      var id = parseInt(e.currentTarget.id.split("-")[1]);
+
+      // console.log(name, status);
+      $.ajax({
+        type: 'POST',
+        url: "http://127.0.0.1:5000/api/editCat",
+        data: {
+          id: id,
+          name: name,
+          status: status
+        },
+        dataType: "json",
+        success: function(res) {
+          if(res.success) {
+            window.location.href = "http://127.0.0.1:5000/typelist";
+          } else {
+            alert(res.reason);
+          }
+        }
+      })
+    })
+  </script>
+</html>

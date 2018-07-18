@@ -1,0 +1,89 @@
+<div class="uk-overflow-container type-container">
+  <p class="uk-text-large uk-text-bold uk-float-left">
+    {{- item.name -}}
+    {%- if item.status == 1 -%}
+      <span class="uk-badge uk-badge-success" style="margin-left: 5px;">正常</span>
+    {%- elif item.status == 2 -%}
+      <span class="uk-badge uk-badge-danger" style="margin-left: 5px;">废弃</span>
+    {%- endif -%}
+  </p>
+
+  <div class="uk-float-right">
+    {%- if item.status == 1 -%}
+      <button class="uk-button uk-button-danger discard-cat-button" type="button" name="button" id="discard-{{ item.id }}">废弃</button>
+    {%- elif item.status == 2 -%}
+      <button class="uk-button uk-button-success reuse-cat-button" id="reuse-{{ item.id }}">启用</button>
+    {%- endif -%}
+    <a href="#edit-modal" data-uk-modal></a>
+    <button class="uk-button uk-button-primary" type="button" name="button" data-uk-modal="{target: '#edit-modal'}">编辑</button>
+    <!-- <button class="uk-button uk-button-success" type="button" name="button" id="{{ id }}">查看商品</button> -->
+    <div id="edit-modal" class="uk-modal">
+      <div class="uk-modal-dialog">
+        <div class="uk-modal-header">
+          <p class="uk-text-large">编辑分类</p>
+        </div>
+        <div>
+          <form class="uk-form">
+            <div class="uk-form-row">
+              <span class="uk-text-muted uk-text-middle">分类名:  </span>
+              <input type="text" placeholder="分类名" value="{{ item.name }}" id="editName">
+            </div>
+            <div class="uk-form-row">
+              <span class="uk-text-muted uk-text-middle">分类状态:  </span>
+              {%- if item.status == 1 -%}
+                <select id="editStatus">
+                  <option value="1" selected="selected">正常</option>
+                  <option value="2">废弃</option>
+                </select>
+              {%- elif item.status == 2 -%}
+                <select id="editStatus">
+                  <option value="1">正常</option>
+                  <option value="2" selected="selected">废弃</option>
+                </select>
+              {%- endif -%}
+            </div>
+          </form>
+        </div>
+        <div class="uk-modal-footer uk-clearfix">
+          <button class="uk-button uk-button-success uk-modal-close uk-float-right edit-cat-button" id="edit-{{ item.id }}">保存</button>
+          <button class="uk-button uk-modal-close uk-float-right" style="margin-right: 5px;">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="uk-overflow-container type-container" style="margin-top: 0;">
+  <div class="type-detail uk-clearfix">
+    <div class="uk-float-left">
+      <span>类别id:{{ item.id }}</span>
+    </div>
+    <div class="uk-float-left">
+      <span>父类别:{{ parent_name }}({{ item.parent_id }})</span>
+    </div>
+    <div class="uk-float-left">
+      <span>类别名称:{{ item.name }}</span>
+    </div>
+    <div class="uk-float-left">
+      {%- if item.status == 1 -%}
+        <span>类别状态:正常</span>
+      {%- elif item.status == 2 -%}
+        <span>类别状态:废弃</span>
+      {%- endif -%}
+    </div>
+    <div class="uk-float-left">
+      <span>创建时间:{{ item.created_time }}</span>
+    </div>
+    <div class="uk-float-left">
+      <span>创建人:{{ created_user }}</span>
+    </div>
+    <div class="uk-float-left">
+      <span>最后更新:{{ item.updated_time }}</span>
+    </div>
+    <div class="uk-float-left">
+      <span>最后更新人:{{ updated_user }}</span>
+    </div>
+    <!-- <div class="uk-float-left">
+      <span>分类下商品总数:12</span>
+    </div> -->
+  </div>
+</div>
