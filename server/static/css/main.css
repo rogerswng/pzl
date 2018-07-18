@@ -1,0 +1,37 @@
+html, body {
+  height: 100%;
+  width: 1080px;
+  margin: auto;
+}
+
+p, span {
+  white-space: pre;
+}
+
+div.filter-box {
+  background-color: #fafafa;
+  margin: 10px 20px 0;
+  padding: 15px 10px;
+}
+
+div.type-container {
+  background-color: #fafafa;
+  margin: 10px 20px 0;
+  padding: 10px 20px;
+}
+
+div.type-item {
+  margin-right: 10px;
+  padding: 10px 5px;
+}
+
+div.type-detail {
+  padding: 10px 5px;
+}
+
+.type-detail div {
+  width: 480px;
+  margin: 0;
+  padding: 5px 0;
+  /* white-space: pre; */
+}
